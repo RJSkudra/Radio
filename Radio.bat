@@ -1,134 +1,107 @@
-@ECHO OFF
-REM Get day of week number, Sunday = 0
+@ECHO off
+echo.
+echo Skripts palaists: %time%
+TIMEOUT /T 15
+start vlc -Z --random --loop C:\Radio\Muzika
+:laiks
 
-for /f "skip=2 tokens=2 delims=," %%a in ('WMIC Path Win32_LocalTime Get DayOfWeek /Format:csv') do set /a DowNum=%%a + 1
+rem 0.st
+if %time% GEQ 7:45:00.00 if %time% LEQ 8:24:50.00 goto stunda
+if %time% GEQ 8:25:00.00 if %time% LEQ 8:29:50.00 goto starpbridis_isais
+rem 1.st
+if %time% GEQ 8:30:00.00 if %time% LEQ 9:09:50.00 goto stunda
+if %time% GEQ 9.10:00.00 if %time% LEQ 9:14:50.00 goto starpbridis_isais
+rem 2.st
+if %time% GEQ 9:15:00.00 if %time% LEQ 9:54:50.00 goto stunda
+if %time% GEQ 9:55:00.00 if %time% LEQ 10:09:50.00 goto starpbridis_garais
+rem 3.st
+if %time% GEQ 10:10:00.00 if %time% LEQ 10:49:50.00 goto stunda
+if %time% GEQ 10:50:00.00 if %time% LEQ 10:54:50.00 goto starpbridis_isais
+rem 4.st
+if %time% GEQ 10:55:00.00 if %time% LEQ 11:34:50.00 goto stunda
+if %time% GEQ 11:35:00.00 if %time% LEQ 11:39:50.00 goto starpbridis_isais
+rem 5.st
+if %time% GEQ 11:40:00.00 if %time% LEQ 12:19:50.00 goto stunda
+if %time% GEQ 12:20:00.00 if %time% LEQ 12:24:50.00 goto starpbridis_isais
+rem 6.st
+if %time% GEQ 12:25:00.00 if %time% LEQ 13:04:50.00 goto stunda
+if %time% GEQ 13:05:00.00 if %time% LEQ 13:09:50.00 goto starpbridis_isais
+rem 7.st
+if %time% GEQ 13:10:00.00 if %time% LEQ 13:49:50.00 goto stunda
+if %time% GEQ 13:50:00.00 if %time% LEQ 13:54:50.00 goto starpbridis_isais
+rem 8.st
+if %time% GEQ 13:55:00.00 if %time% LEQ 15:59:00 goto stunda_pecpusdiena
+rem stundas beigušās
+if %time% GEQ 16:00:00.00 goto stundu_nav
 
+pause
 
-REM Convert day of week number to text abbreviation
+:stunda
+rem nircmd.exe setappvolume chrome.exe 0.45
+echo.
+echo Macibu stunda: %time%
+echo.
+NirCmd.exe /wait setappvolume spotify.exe 0
+NirCmd.exe setappvolume vlc.exe 0
+Echo Nogriezam skalumu!
+echo.
+TIMEOUT /T 50 /nobreak
 
-for /f "tokens=%DowNum%" %%a in ("Sun Mon Tue Wed Thu Fri Sat") do set DOW=%%a
+goto laiks
 
+:stunda_pecpusdiena
 
+rem nircmd.exe setappvolume chrome.exe 0.45
+echo.
+echo Stundas bez starpbriza: %time%
+echo.
+NirCmd.exe /wait setappvolume spotify.exe 0
+NirCmd.exe setappvolume vlc.exe 0
+Echo Nogriezam skalumu!
+echo.
+TIMEOUT /T 50 /nobreak
 
-if "%DOW%"=="Mon" (
-   
-rem Pirmdiena
+goto laiks
 
-NirCmd.exe setappvolume chrome.exe 0.1
+:starpbridis_isais
+rem NirCmd.exe setappvolume chrome.exe 1
+echo.
+echo Isais starpbridis: %time%
+echo.
+NirCmd.exe setappvolume spotify.exe 1
+NirCmd.exe setappvolume vlc.exe 1
+Echo Uzgriezam skalak!
+echo.
+TIMEOUT /T 50 /nobreak
 
-NirCmd.exe /wait setappvolume spotify.exe 0.1
+goto laiks
 
-TIMEOUT /T 1
-cd C:\Users\Zales\Desktop\Radio\Audio
+:starpbridis_garais
 
-   for %%f in (1.*) do "C:\Program Files\VideoLAN\VLC\vlc.exe" --play-and-exit %%f
+rem NirCmd.exe setappvolume chrome.exe 1
+echo.
+echo Garais starpbridis: %time%
+echo.
+NirCmd.exe setappvolume spotify.exe 1
+NirCmd.exe setappvolume vlc.exe 1
+Echo Uzgriezam skalak!
+echo.
+TIMEOUT /T 50 /nobreak
 
-cd C:\Users\Zales\Desktop\Radio
-NirCmd.exe setappvolume chrome.exe 0.14
+goto laiks
 
-NirCmd.exe setappvolume spotify.exe 0.14
+:stundu_nav
 
-TIMEOUT /T 1
+rem NirCmd.exe setappvolume chrome.exe 1
 
-)
+ECHO.
+echo NAV STUNDU!!!
+ECHO.
+echo Atgriezam skanu!
+NirCmd.exe setappvolume spotify.exe 1
+NirCmd.exe setappvolume vlc.exe 1
+taskkill /im vlc.exe /t /f
+Echo.
+echo Beidzam darbu!!!
 
-if "%DOW%"=="Tue" (
-   
-rem Otrdiena
-
-NirCmd.exe setappvolume chrome.exe 0.1
-
-NirCmd.exe /wait setappvolume spotify.exe 0.1
-
-TIMEOUT /T 1
-
-cd C:\Users\Zales\Desktop\Radio\Audio
-
-   for %%f in (2.*) do "C:\Program Files\VideoLAN\VLC\vlc.exe" --play-and-exit %%f
-
-cd C:\Users\Zales\Desktop\Radio
-NirCmd.exe setappvolume chrome.exe 0.14
-NirCmd.exe setappvolume spotify.exe 0.14
-TIMEOUT /T 1
-
-)
-
-if "%DOW%"=="Wed" (
-   
-rem Tresdiena
-
-NirCmd.exe setappvolume chrome.exe 0.1
-
-NirCmd.exe /wait setappvolume spotify.exe 0.1
-
-TIMEOUT /T 1
-
-cd C:\Users\Zales\Desktop\Radio\Audio
-
-   for %%f in (3.*) do "C:\Program Files\VideoLAN\VLC\vlc.exe" --play-and-exit %%f
-
-cd C:\Users\Zales\Desktop\Radio
-setappvolume chrome.exe 0.14
-NirCmd.exe setappvolume spotify.exe 0.14
-
-TIMEOUT /T 1
-
-)
-
-if "%DOW%"=="Thu" (
-   
-rem Ceturtdiena
-
-NirCmd.exe setappvolume chrome.exe 0.01
-NirCmd.exe /wait setappvolume spotify.exe 0.01
-
-TIMEOUT /T 1
-
-cd C:\Users\Zales\Desktop\Radio\Audio
-
-   for %%f in (4.*) do "C:\Program Files\VideoLAN\VLC\vlc.exe" --play-and-exit %%f
-
-cd C:\Users\Zales\Desktop\Radio
-NirCmd.exe setappvolume chrome.exe 0.14
-
-NirCmd.exe setappvolume spotify.exe 0.14
-
-TIMEOUT /T 1
-
-)
-
-if "%DOW%"=="Fri" (
-   
-rem Piektdiena
-
-NirCmd.exe setappvolume chrome.exe 0.1
-
-NirCmd.exe /wait setappvolume spotify.exe 0.1
-
-TIMEOUT /T 1
-
-cd C:\Users\Zales\Desktop\Radio\Audio
-
-   for %%f in (5.*) do "C:\Program Files\VideoLAN\VLC\vlc.exe" --play-and-exit %%f
-
-cd C:\Users\Zales\Desktop\Radio
-NirCmd.exe setappvolume chrome.exe 0.14
-NirCmd.exe setappvolume spotify.exe 0.14
-TIMEOUT /T 1
-
-)
-
-if "%DOW%"=="Sat" (
-   
-rem Sestdiena
-
-
-)
-
-if "%DOW%"=="Sun" (
-   
-rem Svetdiena
-
-
-)
-rem ayy
+exit
